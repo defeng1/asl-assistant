@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  nav {
+      background-color: black!important;
+      border-bottom:2px solid white;padding-bottom:10px
+  }
+
+  .navbar-nav {
+    float: right;
+  }
+
+  body {
+    background-color: #000000;
+  }
+
+  a {
+      color: white;
+      font-size: 24pt!important;
+      font-family: 'Bebas Neue', cursive;
+  }
+
+  #processing {
+    overflow: hidden;
+}
+
+#tsparticles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+    opacity: 0.48;
+    border-top: white;
+}
+  #tsparticles {
+    position : absolute;
+    width:100%;
+    height:100%;
+    z-index:-1;
+}

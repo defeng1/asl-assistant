@@ -2,9 +2,14 @@
 from flask import Flask, jsonify, request, render_template
 from run_kmeans import run_kmeans
 from io import BytesIO
+from keras.preprocessing.image import load_img, img_to_array 
 from PIL import Image
 import base64
 import json
+import numpy as np
+from keras.models import load_model
+cnn_model = load_model('model.h5')
+
 app = Flask(__name__)
 
 @app.route('/hello', methods=['GET', 'POST'])
@@ -28,6 +33,7 @@ def upload():
     
     image_list = json.loads(r_json['data'])
     kmeans_in = []
+    predictions = []
     # Notes to self: need to create an array of images -> pass to kmeans model 
     # -> get array and pass each one to cnn -> render in template
     for i, val in image_list.items():
@@ -36,13 +42,30 @@ def upload():
         img = img.convert('RGB')
         kmeans_in.append(img)
 
+    #ADD Try kmeans, catch error and then return the original data
     kmeans_out = run_kmeans(kmeans_in)
-    print(kmeans_out)
-    # Probabilities
-    #prediction = model.predict(inputs);
-    #label = model.predict_classes(inputs)
-    # Send everything back as JSON
-    return jsonify(status='got image');
+    out_json = {}
+    for i in kmeans_out:
+        print(i)
+        i = i.resize((200, 200))
+        #i = img_to_array(i) 
+        i = np.expand_dims(i, axis=0)
+        #i = np.reshape(i, (1, 200, 200, 3))
+        pred = cnn_model.predict(i)
+        predictions.append(np.argmax(pred))
+
+    print(predictions[0], '\n')
+    #a = iter(predictions)
+    classnames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'del', 'nothing', 'space']
+
+    keys = [str(i) for i in np.arange(0, len(predictions))]
+    predictions = [classnames[i] for i in predictions]
+
+    out = dict(zip(keys, predictions))
+    #out = {str(i): np.argmax(i) for i in predictions}
+    print(out)
+
+    return json.dumps(out);
 
 @app.route("/")
 def index():
