@@ -2,15 +2,19 @@
 from flask import Flask, jsonify, request, render_template
 from run_kmeans import run_kmeans
 from io import BytesIO
-from keras.preprocessing.image import load_img, img_to_array 
+from tensorflow.keras.preprocessing.image import load_img, img_to_array 
 from PIL import Image
 import base64
 import json
 import numpy as np
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 cnn_model = load_model('model.h5')
 
 app = Flask(__name__)
+
+#@app.route('/flask', methods=['GET'])
+#def index():
+#    return "Flask server"
 
 @app.route('/hello', methods=['GET', 'POST'])
 def hello():

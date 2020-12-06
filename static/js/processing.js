@@ -1,4 +1,4 @@
-//import * as tf from '@tensorflow/tfjs';
+
 
 let capture;
 let button;
@@ -6,19 +6,19 @@ let bodypix;
 let segmentation;
 let stop = true;
 var json_out = [];
-
+let prediction = '';
 let myFont;
 //let json_out = {};
 let interv2;
 
 function setup() {
-  
+
   //load();
   createCanvas(windowWidth, windowHeight);
   
   strokeWeight(5)
   capture = createCapture(VIDEO);
-  //capture.size(500, 500); //500, 500
+
   capture.hide();
 
   /* Button */
@@ -43,22 +43,46 @@ function setup() {
         0,
         windowWidth - (windowWidth * .6),
         windowHeight);  
+
+  fill(255);
+  textSize(100);
+  p = text(prediction, windowWidth * .75, windowHeight * .5);
+      
 }
 
 
-
 function draw() {
+
+  clear();
+  //setup();
 
   image(capture, windowWidth * .1, 
                  windowHeight * .1, 
                  500, 
                  350); 
   
+  fill(0);
+
+  stroke(255);
+  strokeWeight(2);
+
   line(windowWidth * .7,
-  0,
-  windowWidth * .7,
-  displayHeight);    
-            
+      0,
+      windowWidth * .7,
+      displayHeight);    
+
+  strokeWeight(0);
+  fill(0, 0, 0, 150);
+  rect(windowWidth * .7,
+        0,
+        windowWidth - (windowWidth * .6),
+        windowHeight);  
+
+  fill(255);
+  textSize(100);
+  p = text(prediction, windowWidth * .75, windowHeight * .5);
+
+
   if(!stop) {
     let c = get();
     st_button.remove()
@@ -76,7 +100,12 @@ function draw() {
     st_button.style('background-color', 'green');
     st_button.style('color', 'white');
   }
+
+
 }
+
+
+
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
@@ -97,7 +126,7 @@ function b_switch() {
           key = i.toString();
           data = saveFrame();
           json_out.push(data);
-        }, 300);
+        }, 150);
       }
       
       json_out = Object.assign({}, json_out);
@@ -112,6 +141,7 @@ function b_switch() {
           return;
         }
         response.json().then(function (data) {
+          prediction = data["guess"]
           console.log(data);
         });
       }).catch(function (error) {
@@ -120,43 +150,15 @@ function b_switch() {
 
       json_out = []
 
-    }, 3000);
+    }, 1500);
   }
 }
 
-
-function runModel(data) {
-  // first we get the value in the input field
-
-  
-
-  (async () => {
-
-    console.log(data);
-    const inputTensor = await tf.fromPixels(data);  // then convert to tensor
-    console.log(inputTensor);
-    const loadedModel = await tf.loadLayersModel('model.json');
-    console.log(loadedModel)
-    loadedModel.predict(inputTensor).print();
-  })();
-/*
-  load();
-  console.log(model);
-  model.then(model => {
-    //const model = await tf.loadModel('model.json');
-    console.log(model)
-    let result = model.predict(inputTensor);
-    result = result.round().dataSync()[0];  // round prediction and get value
-    console.log(result); 
-
-  }); */
-}
 
 function saveFrame() {
 
   /*let pic = image(c, 0, 0);
   save(c, 'output.png'); */
-
 
   let c = get(windowWidth * .1, 
               windowHeight * .1, 
@@ -173,10 +175,6 @@ function saveFrame() {
 
   c.loadPixels();
   let pixels = new Uint8ClampedArray(4);
-  pixels[0] = null;
-  pixels[1] = c.pixels[0];
-  pixels[2] = c.pixels[1];
-  pixels[3] = c.pixels[2];
 
   /*let data = {data: pixels, 
               width: (windowWidth * .5) - (windowWidth * .1),

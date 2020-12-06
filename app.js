@@ -1,18 +1,22 @@
 const http = require('http');
+const express = require('express');
 const fs = require('fs');
-const processing = require('./processing');
-const particles = require('./particles');
+const processing = require('./static/js/processing');
+const particles = require('./static/js/particles');
 
 
-const port = 3000;
+app = express();
+const PORT = 3000;
 
-fs.readFile('./index.html', function (err, html) {
+app.get('/home', function(req, res) {
+    request('http://127.0.0.1:5000/flask', function (error, response, body) {
+        console.error('error:', error); // Print the error
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        console.log('body:', body); // Print the data received
+        res.send(body); //Display the response on the website
+      });      
+});
 
-  if (err) throw err;    
-
-  http.createServer(function(request, response) {  
-      response.writeHeader(200, {"Content-Type": "text/html"});  
-      response.write(html);  
-      response.end();  
-  }).listen(port);
-}); 
+app.listen(PORT, function (){ 
+    console.log('Listening on Port 3000');
+});  
