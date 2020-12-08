@@ -23,22 +23,17 @@ function setup() {
   strokeWeight(5)
   capture = createCapture(VIDEO);
 
-  hp = ml5.handpose(capture, modelReady);
-
-  // hp.on('predict', function(results) {
-  //   poses = results;
-  //   // console.log(poses)
-  // });
+  /*hp = ml5.handpose(capture, modelReady);
 
   hp.on("predict", results => {
     poses = results;
-  });
+  }); */
 
   capture.hide();
 
   /* Button */
   st_button = createButton('Start session');
-  st_button.position(windowWidth * .2, windowHeight * .93);
+  st_button.position(windowWidth * .2, windowHeight * .9);
   st_button.mousePressed(b_switch)
   st_button.style('color', 'green');
   fill(0);
@@ -77,8 +72,8 @@ function draw() {
 
   image(capture, windowWidth * .1, 
                  windowHeight * .1, 
-                 500, 
-                 350); 
+                 windowWidth * .4, 
+                 windowHeight * .6); 
   
   fill(0);
 
@@ -106,7 +101,7 @@ function draw() {
     let c = get();
     st_button.remove()
     st_button = createButton('End session');
-    st_button.position(windowWidth * .2, windowHeight * .93);
+    st_button.position(windowWidth * .2, windowHeight * .9);
     st_button.mousePressed(b_switch);
     st_button.style('background-color', 'red');
     st_button.style('color', 'white');
@@ -114,15 +109,15 @@ function draw() {
   } else {
     st_button.remove()
     st_button = createButton('Start session');
-    st_button.position(windowWidth * .2, windowHeight * .93);
+    st_button.position(windowWidth * .2, windowHeight * .9);
     st_button.mousePressed(b_switch);
     st_button.style('background-color', 'green');
     st_button.style('color', 'white');
   }
 
   // Drawing hand landmarks
-  drawKeypoints();
-  drawSkeleton();
+  //drawKeypoints();
+  //drawSkeleton();
 }
 
 
@@ -181,10 +176,10 @@ function saveFrame() {
   /*let pic = image(c, 0, 0);
   save(c, 'output.png'); */
 
-  let c = get(windowWidth * .1, 
+  let c = get(windowWidth * .2, 
               windowHeight * .1, 
-              500, 
-              350);
+              windowWidth * .5, 
+              windowHeight * .6); 
 
   var base64 = c.canvas.toDataURL();
   // Get rid of the header stuff (should maybe do this in flask)

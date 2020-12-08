@@ -21,7 +21,7 @@ mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(
     static_image_mode=True,
     max_num_hands=1,
-    min_detection_confidence=0.1)
+    min_detection_confidence=0.3)
 
 app = Flask(__name__)
 
@@ -90,7 +90,6 @@ def upload():
     print(predictions)
     classnames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'del', 'space']
 
-    #predictions = [classnames[i] for i in predictions if i is not 'nothing']
     try:
         prediction = mode([i for i in predictions if i is not 'nothing'])
     except:

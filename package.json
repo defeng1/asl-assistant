@@ -1,0 +1,27 @@
+{
+  "name": "asl-assistant",
+  "version": "1.0.0",
+  "description": "Capstone Project Fall 2020",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "particles.js": "^2.0.0",
+    "processing": "^0.2.0",
+    "requirejs": "^2.3.6",
+    "tensorflow-models": "0.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/defeng1/asl-assistant.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/defeng1/asl-assistant/issues"
+  },
+  "homepage": "https://github.com/defeng1/asl-assistant#readme"
+}
