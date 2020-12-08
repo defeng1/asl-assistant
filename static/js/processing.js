@@ -176,9 +176,9 @@ function saveFrame() {
   /*let pic = image(c, 0, 0);
   save(c, 'output.png'); */
 
-  let c = get(windowWidth * .2, 
+  image(capture, windowWidth * .1, 
               windowHeight * .1, 
-              windowWidth * .5, 
+              windowWidth * .4, 
               windowHeight * .6); 
 
   var base64 = c.canvas.toDataURL();
