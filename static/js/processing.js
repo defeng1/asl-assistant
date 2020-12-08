@@ -176,7 +176,7 @@ function saveFrame() {
   /*let pic = image(c, 0, 0);
   save(c, 'output.png'); */
 
-  image(capture, windowWidth * .1, 
+  let c = get(windowWidth * .1, 
               windowHeight * .1, 
               windowWidth * .4, 
               windowHeight * .6); 
